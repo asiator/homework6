@@ -1,0 +1,103 @@
+---
+title: "Benchmark of results \"home6\" package"
+author: "Toruniewska Joanna"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{benchmark}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+#Comparision of *mode()*
+
+*Mode()* is R function. It returns the same results as *home6::mode()* function. 
+```{r}
+
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+a<-c(1,1,3,3,3,4,5,5,1,1)
+b<-c(1:10,1,2,2,3,1,1)
+c<-c(1,2,3,1,2,3,5,5,1,2,1,1:20, 1,0,2,5)
+d<-c(1:10,10,NA)
+e<-c(1:10,1:100,NA,1:50)
+```
+```{r}
+system.time( replicate(10000, home6::mode(a) ) )
+system.time( replicate(10000, Mode(a) ) )
+
+system.time( replicate(10000, home6::mode(b) ) )
+system.time( replicate(10000, Mode(b) ) )
+
+system.time( replicate(10000, home6::mode(c) ) )
+system.time( replicate(10000, Mode(c) ) )
+
+system.time( replicate(10000, home6::mode(d) ) )
+system.time( replicate(10000, Mode(d) ) )
+
+system.time( replicate(10000, home6::mode(e) ) )
+system.time( replicate(10000, Mode(e) ) )
+```
+
+We can see that *Mode()* (R) function is faster than *home6::mode()* (c++) function.
+
+#Comparision of *simplify2array()*
+
+
+The *base::simplify2array()* is the build-in R function, the *home6::simplify2array()* mimim it behaviour.
+
+```{r}
+a<-list(c(1,2,3), c(1,2,8))
+b<-list(c(1:100), c(1:100))
+c<-list(c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8),c(1,2,3), c(1,2,8) )
+d<-lapply(c(1:10), function(x) {c(1:10)} )
+
+```
+```{r}
+system.time( replicate(10000, home6::simplify2array(a) ) )
+system.time( replicate(10000, base::simplify2array(a) ) )
+
+system.time( replicate(10000, home6::simplify2array(b) ) )
+system.time( replicate(10000, base::simplify2array(b) ) ) 
+
+system.time( replicate(10000, home6::simplify2array( c)))
+system.time( replicate(10000, base::simplify2array(c)))
+
+system.time( replicate(10000, home6::simplify2array(d) ) )
+system.time( replicate(10000, base::simplify2array(d) ) )
+```
+
+We can see that *home6::simplify2array* function is a little bit faster than *base::simplify2array* function.
+
+#Comparision of *ass()*
+```{r}
+library(combinat)
+Ass<-function(x){
+  m<-t(combn(2*x,2))
+  size<-length(m[,1])
+  out<-matrix(0,nrow = size,ncol=2*x);
+  for(y in c(1:size)){
+    out[y,][m[y,]]<-c(1,1)
+  }
+  return(out)
+}
+a<-2
+b<-5
+c<-7
+
+```
+```{r}
+system.time( replicate(1000, home6::ass(a) ) )
+system.time( replicate(1000, Ass(a) ) )
+
+system.time( replicate(1000, home6::ass(b) ) )
+system.time( replicate(1000, Ass(b) ) ) 
+
+system.time( replicate(1000, home6::ass( c)))
+system.time( replicate(1000, Ass(c)))
+```
+
+We can see that *home6::ass()* function is a little bit faster than *Ass()* function for small *n*.

@@ -1,0 +1,84 @@
+---
+title: "Features of \"home6\" package"
+author: "Toruniewska Joanna"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The package "home6" contains solutions of tasks from homework 6 from Advanced Data Analysis Software Development
+in R. It consists of three functions:
+
+- mode(),
+- simplify2array(),
+- ass().
+
+# Functions
+
+##mode()
+This function determine the most frequently occurring value in an integer vector (mode). If the mode is ambiguous (e.g. for 1, 2, 2, 2, 3, 3, 1, 3), return any mode. NA are ignored. If there is only NA in vector, the function throws an error.
+
+####parameters
+v - an integer vector. If there is some value different to integer functions throws an error. 
+
+####return
+an integer value, the most frequently occurring value
+
+####algorithm
+The function count how many times all values occur in vector. Than it looking for maximum value from counts. 
+
+####use
+```{r}
+home6::mode(c(1,1,3,3,3,4,5,5,1,1))
+home6::mode(c(1,1,3,3,3,4,5,5,1,1,3))
+home6::mode(c(1,1,3,3,3,3,4,5,5,NA,1))
+home6::mode(c(NA,NA,NA,1))
+```
+
+##simplify2array()
+This function filled  matrix by given vectors column-by-column. To mimic the behaviour of original function NA are also trasnfer.
+
+####parameters
+x - list of numeric vectors. If input is not a list of numeric vectors the function throws an error.
+
+####return
+
+- a matrix (if vectors length are equal),
+- a list of numeric vectors (if vectors length are not equal).
+
+####algorithm
+The function check size of elements of the lise. If vectors length are not equal it returns the input list.
+If vectors length are equal, the function returns matrix filled by given vectors column-by-column.
+
+####use
+```{r}
+home6::simplify2array(list(c(1,2), c(1,2)))
+home6::simplify2array(list(c(1,2), c(1,2,3)))
+home6::simplify2array(list(c(1,2,NA), c(1,2,3)))
+home6::simplify2array(list(c(1,2), c(1,2), c(3,6)))
+```
+
+##ass()
+This funciotn, for some given integer *n*, generates all possible 0-1 assignment vectors of *2n* survey participants in such a way that exactly *n* of them are assigned to group *0* (control) and the other *n* ones are assigned to group *1* (treatment).
+
+####parameters
+
+n - an integer value
+
+####return
+
+matrix with 2n columns and an appropriate number of rows
+
+####algorithm
+In the first step, the function finds a next permutations of vector with appropiate number of *1* and *0*. Than it save all vectors into a matrix *out* and return it.
+
+####use
+```{r}
+home6::ass(2)
+home6::ass(3)
+```
+
+

@@ -1,0 +1,15 @@
+Package: home6
+Type: Package
+Title: Solving 6th R exercise
+Version: 1.0
+Date: 2015-12-14
+Author: Toruniewska Joanna
+Maintainer: Toruniewska Joanna <j.toruniewska@gmail.com>
+Description: 
+License: GPL (>= 2)
+Imports:
+    Rcpp (>= 0.11.6)
+LinkingTo: Rcpp
+RoxygenNote: 5.0.1
+LinkingTo : Rcpp11
+SystemRequirements: C++11
